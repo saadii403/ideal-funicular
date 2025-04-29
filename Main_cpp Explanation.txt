@@ -1,0 +1,35 @@
+Main.cpp Explanation
+----------------------
+
+Purpose:
+- Implements the user interface (text-based menu) that allows the user to interact with the IDS system.
+
+Functions and Logic:
+- Displays a menu with options:
+  1. List Network Interfaces
+  2. Start Live Capture
+  3. Analyze PCAP File
+  4. View Alerts
+  5. Clear Alerts
+  6. Exit
+
+- User selects an option, and the corresponding IDS function is called.
+
+Important Parts:
+- Lists available network devices using pcap_findalldevs().
+- Allows the user to select a device for live capture.
+- Prompts user for PCAP file name if analyzing offline.
+- Calls IDS.showAlerts() to display recorded alerts.
+- Calls IDS.clearAlerts() to reset alerts list.
+
+Object-Oriented Principles Used:
+- **Encapsulation**:
+  - The Main function interacts with IDS only through its public methods (startLiveCapture, loadPcapFile, etc.).
+- **Abstraction**:
+  - The user interface (main.cpp) hides all the low-level details like packet parsing, analyzer behavior, or firewall commands.
+
+Connections to Other Modules:
+- Creates an IDS object that internally:
+  - Uses Packet, AlertManager, FirewallManager.
+  - Uses analyzers (SignatureAnalyzer, AnomalyAnalyzer) to detect and block attacks.
+- Receives user input and triggers appropriate IDS operations.

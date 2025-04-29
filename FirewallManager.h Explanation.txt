@@ -1,0 +1,29 @@
+FirewallManager.h Explanation
+-------------------------------
+
+Purpose:
+- Declares the FirewallManager class responsible for automatically blocking malicious IP addresses through the Windows Firewall.
+
+Classes and Structures:
+- Class: FirewallManager
+  - Manages firewall rules to block traffic from detected attackers.
+
+Important Data Members:
+- std::set<std::string> blockedIPs:
+  - Stores IP addresses that have already been blocked to avoid duplicate rules.
+
+Important Methods:
+- void blockIP(const std::string& ip):
+  - Adds a Windows Firewall rule to block the given IP address in both inbound and outbound directions.
+- bool isBlocked(const std::string& ip) const:
+  - Checks if a given IP address is already in the blocked list.
+
+Object-Oriented Principles Used:
+- **Encapsulation**:
+  - The list of blocked IPs is private and only modified through public methods.
+- **Abstraction**:
+  - Users simply call `blockIP(ip)` without worrying about the exact Windows firewall commands.
+
+Connections to Other Modules:
+- Called by SignatureAnalyzer and AnomalyAnalyzer after detecting a suspicious packet.
+- Ensures that once an attack is detected, the attacker's traffic is blocked in real time.

@@ -1,0 +1,48 @@
+IDS.cpp Explanation
+---------------------
+
+Purpose:
+- Implements the methods declared in IDS.h to manage real-time packet capture, offline PCAP analysis, and dispatching packets to analyzers.
+
+Functions Implemented:
+- void IDS::parsePcapPacket(const struct pcap_pkthdr* header, const u_char* data):
+  - Extracts source IP, destination IP, source port, destination port, and protocol from raw packet bytes.
+  - Creates a Packet object with extracted information and passes it to analyzers.
+
+- IDS::IDS():
+  - Constructor. Initializes and registers the analyzers (SignatureAnalyzer and AnomalyAnalyzer).
+
+- void IDS::addAnalyzer(std::unique_ptr<Analyzer> analyzer):
+  - Adds a dynamically allocated analyzer to the analyzers list.
+
+- void IDS::analyzePacket(const Packet& packet):
+  - Passes the Packet object to each registered analyzer for inspection.
+
+- void IDS::loadPcapFile(const std::string& filename):
+  - Opens a PCAP file using libpcap.
+  - Iterates through each packet, parsing and analyzing it.
+
+- void IDS::startLiveCapture(const std::string& interfaceName):
+  - Starts capturing packets live from the selected network interface.
+  - Each captured packet is parsed and analyzed on-the-fly.
+
+- void IDS::showAlerts() const:
+  - Calls AlertManager to print all recorded alerts.
+
+- void IDS::clearAlerts():
+  - Calls AlertManager to remove all recorded alerts.
+
+Object-Oriented Principles Used:
+- **Encapsulation**:
+  - Internal management of analyzers, alerts, and parsing is private to the IDS class.
+- **Abstraction**:
+  - Provides high-level user operations like "Start Capture" without exposing packet parsing details.
+- **Polymorphism**:
+  - Analyzers are stored as base-class pointers (Analyzer*) but behave differently depending on their type (Signature or Anomaly).
+
+Connections to Other Modules:
+- Coordinates work between:
+  - Packet objects (parsed from raw network data),
+  - SignatureAnalyzer and AnomalyAnalyzer (for detection),
+  - AlertManager (for logging alerts),
+  - FirewallManager (for blocking detected attackers).

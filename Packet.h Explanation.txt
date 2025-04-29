@@ -1,0 +1,33 @@
+Packet.h Explanation
+----------------------
+
+Purpose:
+- Defines the Packet class, which models a captured network packet with important metadata.
+
+Classes and Structures:
+- Class: Packet
+  - Represents a network packet, including source and destination information.
+
+Important Data Members:
+- std::string sourceIP: Stores the IP address of the packet sender.
+- std::string destinationIP: Stores the IP address of the packet receiver.
+- int sourcePort: Source TCP/UDP port.
+- int destinationPort: Destination TCP/UDP port.
+- std::string protocol: Protocol used (TCP, UDP, OTHER).
+- std::chrono::system_clock::time_point timestamp: Time the packet was captured.
+- int length: Size of the captured packet in bytes.
+
+Important Methods:
+- Constructor: Initializes all data members when a new Packet is created.
+- Getter methods: Provide access to private data (getSourceIP(), getDestinationIP(), etc.).
+
+Object-Oriented Principles Used:
+- **Encapsulation**: 
+  - All data members are private.
+  - Only accessible through public getter methods, protecting data integrity.
+- **Abstraction**:
+  - Users of Packet class only need to know about getters, not internal storage details.
+
+Connections to Other Modules:
+- IDS.cpp creates Packet objects after parsing network data.
+- Packet objects are passed to analyzers (SignatureAnalyzer, AnomalyAnalyzer) for threat detection.

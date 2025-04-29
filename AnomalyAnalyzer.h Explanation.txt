@@ -1,0 +1,51 @@
+AnomalyAnalyzer.h Explanation
+-------------------------------
+
+Purpose:
+- Declares the AnomalyAnalyzer class, which detects attacks by identifying abnormal traffic patterns rather than known signatures.
+
+Classes and Structures:
+- Class: AnomalyAnalyzer
+  - Inherits from Analyzer base class.
+
+Important Data Members:
+- AlertManager& alertManager:
+  - Reference to AlertManager used to record detected anomalies.
+- FirewallManager& firewallManager:
+  - Reference to FirewallManager used to block attackers.
+- GeoIPResolver geoResolver:
+  - Used to resolve the country of suspicious IPs.
+- std::map<std::string, int> packetCount:
+  - Counts packets received from each source IP.
+- std::map<std::string, std::set<int>> portsAccessed:
+  - Tracks different ports accessed by each IP.
+- int floodThreshold:
+  - The number of packets from an IP required to consider it a flood attack (e.g., 10 packets).
+- int portScanThreshold:
+  - The number of unique ports touched by an IP to consider it a port scanning attempt (e.g., 5 ports).
+- int largePacketSize:
+  - Packet size limit to consider an abnormally large packet (e.g., 1500 bytes).
+
+Important Methods:
+- AnomalyAnalyzer(AlertManager& alertMgr, FirewallManager& fwMgr):
+  - Constructor initializing managers and thresholds.
+- void analyze(const Packet& packet) override:
+  - Performs three checks: flood, port scan, and large packet detection.
+- std::string getName() const override:
+  - Returns the analyzer name ("Anomaly-Based Analyzer (Smart)").
+
+Object-Oriented Principles Used:
+- **Inheritance**:
+  - AnomalyAnalyzer inherits from Analyzer class.
+- **Polymorphism**:
+  - Implements the abstract analyze() function differently from SignatureAnalyzer.
+- **Encapsulation**:
+  - Hides counters and detection logic within the class.
+- **Abstraction**:
+  - User of the class only calls analyze(), not worrying about thresholds or internal maps.
+
+Connections to Other Modules:
+- IDS.cpp uses this analyzer to analyze all packets.
+- Alerts are created and logged through AlertManager.
+- Malicious IPs are blocked via FirewallManager.
+- GeoIPResolver adds attacker location data into alerts.
