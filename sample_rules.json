@@ -1,0 +1,15 @@
+# Sample IDS/IPS Rules (format: message|pattern)
+Suspicious test pattern|test
+Malicious payload detected|malicious
+SQL injection attempt|SELECT * FROM
+XSS attempt|<script>
+Potential backdoor|backdoor
+Command injection|cmd.exe
+PowerShell execution|powershell
+Suspicious file extension|.exe
+Credit card pattern|4[0-9]{12}(?:[0-9]{3})?
+Email harvesting|@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}
+Suspicious user agent|sqlmap
+Directory traversal|../../../
+PHP injection|<?php
+Buffer overflow attempt|AAAAAAAAAAAAAAAA
